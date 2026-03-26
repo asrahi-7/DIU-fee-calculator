@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIU Payment Before Final Calculator</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #f8f9fa;
+            --accent-color: #28a745;
+            --text-color: #333;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn-calculate {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-calculate:hover {
+            background-color: #218838;
+        }
+
+        #result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+
+        .result-item.highlight {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            border-bottom: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ccc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DIU Payment Before Final Calculator</h1>
+    <p style="text-align: center; color: #666;">For CSE Department | Version 1.0 Web</p>
+
+    <div class="section-title">1. Regular Course Credits</div>
+    <div class="grid-3">
+        <div class="input-group">
+            <label>Core Credits</label>
+            <input type="number" id="coreCred" min="0" step="1" placeholder="e.g., 9">
+        </div>
+        <div class="input-group">
+            <label>GED Credits</label>
+            <input type="number" id="gedCred" min="0" step="1" placeholder="e.g., 3">
+        </div>
+        <div class="input-group">
+            <label>Lab Credits</label>
+            <input type="number" id="labCred" min="0" step="0.5" placeholder="e.g., 1.5">
+        </div>
+    </div>
+
+    <div class="section-title">2. Retake Course Credits (Leave empty if none)</div>
+    <div class="grid-3">
+        <div class="input-group">
+            <label>Retake Core</label>
+            <input type="number" id="reCoreCred" min="0" step="1" placeholder="0">
+        </div>
+        <div class="input-group">
+            <label>Retake GED</label>
+            <input type="number" id="reGedCred" min="0" step="1" placeholder="0">
+        </div>
+        <div class="input-group">
+            <label>Retake Lab</label>
+            <input type="number" id="reLabCred" min="0" step="0.5" placeholder="0">
+        </div>
+    </div>
+
+    <div class="section-title">3. Fees Per Credit</div>
+    <div class="grid-3">
+        <div class="input-group">
+            <label>Core Fee (Tk)</label>
+            <input type="number" id="coreFee" min="0" placeholder="Required">
+        </div>
+        <div class="input-group">
+            <label>GED Fee (Tk)</label>
+            <input type="number" id="gedFee" min="0" placeholder="Required">
+        </div>
+        <div class="input-group">
+            <label>Lab Fee (Tk)</label>
+            <input type="number" id="labFee" min="0" placeholder="Required">
+        </div>
+    </div>
+
+    <div class="section-title">4. Registration Info & Waiver</div>
+    <div class="grid-3">
+        <div class="input-group">
+            <label>Registration Fee (A)</label>
+            <input type="number" id="regFee" min="0" placeholder="Required">
+        </div>
+        <div class="input-group">
+            <label>Pre-paid 4 Credits (B)</label>
+            <input type="number" id="paidCredits" min="0" placeholder="Required">
+        </div>
+        <div class="input-group">
+            <label>Waiver (%)</label>
+            <input type="number" id="waiver" min="0" max="100" placeholder="e.g., 20">
+        </div>
+    </div>
+
+    <button class="btn-calculate" onclick="calculateFees()">Calculate Semester Fee</button>
+
+    <div id="result-section">
+        <h2 style="margin-top: 0; color: var(--primary-color);">Calculation Breakdown</h2>
+        <div id="result-content"></div>
+    </div>
+
+    <footer>
+        <p>Original C Code by Fahim Faysal Khan | Web Version created for DIU CSE</p>
+    </footer>
+</div>
+
+<script>
+    function getValue(id) {
+        const val = parseFloat(document.getElementById(id).value);
+        return isNaN(val) ? 0 : val;
+    }
+
+    function calculateFees() {
+        // 1. Get Inputs
+        const coreCred = getValue('coreCred');
+        const gedCred = getValue('gedCred');
+        const labCred = getValue('labCred');
+
+        const reCoreCred = getValue('reCoreCred');
+        const reGedCred = getValue('reGedCred');
+        const reLabCred = getValue('reLabCred');
+
+        const coreFee = getValue('coreFee');
+        const gedFee = getValue('gedFee');
+        const labFee = getValue('labFee');
+
+        const regFee = getValue('regFee');
+        const paidCredits = getValue('paidCredits');
+        let waiver = getValue('waiver') / 100;
+
+        // 2. Perform Calculations (Mirroring the C logic)
+        const totalCoreCred = coreCred + reCoreCred;
+        const totalGedCred = gedCred + reGedCred;
+        const totalLabCred = labCred + reLabCred;
+
+        const coreTotalFee = coreFee * totalCoreCred;
+        const gedTotalFee = gedFee * totalGedCred;
+        const labTotalFee = Math.floor(labFee * totalLabCred);
+
+        const totalCourseFee = coreTotalFee + gedTotalFee + labTotalFee;
+        const totalWithReg = totalCourseFee + regFee;
+        const totalPaid = regFee + paidCredits;
+
+        // Regular Fees (Waiver applies only to regular courses)
+        const regularCore = coreFee * coreCred;
+        const regularGed = gedFee * gedCred;
+        const regularLab = Math.floor(labFee * labCred);
+        const regularTotal = regularCore + regularGed + regularLab;
+        
+        const waiverTotal = Math.floor(regularTotal - (regularTotal * waiver));
+
+        // Retake Fees (No waiver)
+        const retakeCore = coreFee * reCoreCred;
+        const retakeGed = gedFee * reGedCred;
+        const retakeLab = Math.floor(labFee * reLabCred);
+        const retakeTotal = retakeCore + retakeGed + retakeLab;
+
+        const totalPaymentWithWaiver = waiverTotal + retakeTotal;
+        const finalPaymentBeforeExam = totalPaymentWithWaiver - paidCredits;
+
+        // 3. Generate Output HTML
+        let html = `
+            <div class="result-item"><span>Registration Fee:</span> <span>${regFee} Taka</span></div>
+            <div class="result-item"><span>Core Course Fee (${totalCoreCred} credits):</span> <span>${coreTotalFee} Taka</span></div>
+            <div class="result-item"><span>GED Course Fee (${totalGedCred} credits):</span> <span>${gedTotalFee} Taka</span></div>
+            <div class="result-item"><span>Lab Course Fee (${totalLabCred} credits):</span> <span>${labTotalFee} Taka</span></div>
+            <div class="result-item"><span>Total Course Fee (Without Waiver):</span> <span>${totalCourseFee} Taka</span></div>
+            <div class="result-item"><span>With Registration Fee:</span> <span>${totalWithReg} Taka</span></div>
+        `;
+
+        if (waiver > 0) {
+            html += `<div class="result-item" style="color: #28a745;"><span>Total Tuition After ${getValue('waiver')}% Waiver:</span> <span>${totalPaymentWithWaiver} Taka</span></div>`;
+        }
+
+        html += `
+            <div class="result-item"><span>Already Paid:</span> <span>${totalPaid} Taka (Reg: ${regFee} + Sem: ${paidCredits})</span></div>
+            <div class="result-item highlight"><span>Payment Before Final Exam:</span> <span>${finalPaymentBeforeExam} Taka</span></div>
+        `;
+
+        // 4. Update DOM and show section
+        document.getElementById('result-content').innerHTML = html;
+        document.getElementById('result-section').style.display = 'block';
+        
+        // Scroll to results smoothly
+        document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
