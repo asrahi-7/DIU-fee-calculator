@@ -3,150 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIU Payment Before Final Calculator</title>
+    <title>DIU CSE Semester Fee Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
         :root {
-            --primary-color: #0056b3;
-            --secondary-color: #f8f9fa;
-            --accent-color: #28a745;
-            --text-color: #333;
-            --border-radius: 8px;
+            --primary: #2575fc;
+            --secondary: #6a11cb;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --success: #00b894;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e9ecef;
-            color: var(--text-color);
-            line-height: 1.6;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
         }
 
+        /* Animated Gradient Background */
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Container */
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.8s ease-out;
         }
 
-        h1 {
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
             text-align: center;
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
             margin-bottom: 30px;
         }
 
-        .section-title {
-            background-color: var(--primary-color);
+        h1 {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .btn-reference {
+            background: rgba(37, 117, 252, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-reference:hover {
+            background: var(--primary);
             color: white;
-            padding: 10px 15px;
-            border-radius: var(--border-radius);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-size: 1.1em;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+        .section-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--secondary);
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid rgba(106, 17, 203, 0.1);
+            padding-bottom: 8px;
         }
 
-        .grid-2 {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         label {
-            font-weight: 600;
-            margin-bottom: 5px;
             font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            transition: color 0.3s;
         }
 
         input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
             font-size: 1em;
-            transition: border-color 0.3s;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         input:focus {
-            border-color: var(--primary-color);
             outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input:focus + label {
+            color: var(--primary);
         }
 
         .btn-calculate {
-            display: block;
             width: 100%;
-            padding: 15px;
-            background-color: var(--accent-color);
+            padding: 16px;
+            margin-top: 35px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             color: white;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 12px;
             font-size: 1.2em;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 30px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
         }
 
         .btn-calculate:hover {
-            background-color: #218838;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(106, 17, 203, 0.4);
         }
 
+        .btn-calculate:active {
+            transform: translateY(1px);
+        }
+
+        /* Results Section */
         #result-section {
             display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: var(--secondary-color);
-            border-radius: var(--border-radius);
-            border-left: 5px solid var(--primary-color);
+            margin-top: 35px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border-left: 6px solid var(--success);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            font-size: 0.95em;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
         }
 
         .result-item.highlight {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: var(--primary-color);
-            border-bottom: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--success);
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 2px solid #ccc;
+            border-top: 2px solid rgba(0,0,0,0.1);
+            background: rgba(0, 184, 148, 0.1);
+            border-radius: 8px;
+            padding: 15px;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.8em;
-            color: #666;
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover { color: #d63031; }
+
+        .course-list h3 {
+            color: var(--primary);
+            margin: 15px 0 10px 0;
+        }
+
+        .course-list ul {
+            list-style: none;
+        }
+
+        .course-list li {
+            padding: 8px 12px;
+            background: #f8f9fa;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary);
+            font-size: 0.9em;
+        }
+        .course-list li span { font-weight: 600; color: #333; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>DIU Payment Before Final Calculator</h1>
-    <p style="text-align: center; color: #666;">For CSE Department | Version 1.0 Web</p>
+    <header>
+        <h1><i class="fas fa-calculator"></i> DIU Fee Calculator</h1>
+        <p>Smart Payment Before Final Exam Calculator for CSE Dept.</p>
+        <button class="btn-reference" onclick="toggleModal()"><i class="fas fa-book-open"></i> What's GED and Core credit (View Course Reference)</button>
+    </header>
 
-    <div class="section-title">1. Regular Course Credits</div>
-    <div class="grid-3">
+    <div class="section-title"><i class="fas fa-graduation-cap"></i> 1. Enter Your Credits</div>
+    <div class="grid">
         <div class="input-group">
             <label>Core Credits</label>
             <input type="number" id="coreCred" min="0" step="1" placeholder="e.g., 9">
@@ -161,8 +318,8 @@
         </div>
     </div>
 
-    <div class="section-title">2. Retake Course Credits (Leave empty if none)</div>
-    <div class="grid-3">
+    <div class="section-title"><i class="fas fa-history"></i> 2. Retake Credits (Skip if none)</div>
+    <div class="grid">
         <div class="input-group">
             <label>Retake Core</label>
             <input type="number" id="reCoreCred" min="0" step="1" placeholder="0">
@@ -177,129 +334,191 @@
         </div>
     </div>
 
-    <div class="section-title">3. Fees Per Credit</div>
-    <div class="grid-3">
+    <div class="section-title"><i class="fas fa-tags"></i> 3. Fee Configurations (Pre-filled)</div>
+    <div class="grid">
         <div class="input-group">
-            <label>Core Fee (Tk)</label>
-            <input type="number" id="coreFee" min="0" placeholder="Required">
+            <label>Core Fee / Credit (Tk)</label>
+            <input type="number" id="coreFee" value="5100" min="0">
         </div>
         <div class="input-group">
-            <label>GED Fee (Tk)</label>
-            <input type="number" id="gedFee" min="0" placeholder="Required">
+            <label>GED Fee / Credit (Tk)</label>
+            <input type="number" id="gedFee" value="3500" min="0">
         </div>
         <div class="input-group">
-            <label>Lab Fee (Tk)</label>
-            <input type="number" id="labFee" min="0" placeholder="Required">
+            <label>Lab Fee / Credit (Tk)</label>
+            <input type="number" id="labFee" value="5800" min="0">
         </div>
     </div>
 
-    <div class="section-title">4. Registration Info & Waiver</div>
-    <div class="grid-3">
+    <div class="section-title"><i class="fas fa-file-invoice-dollar"></i> 4. Payments & Waiver</div>
+    <div class="grid">
         <div class="input-group">
-            <label>Registration Fee (A)</label>
-            <input type="number" id="regFee" min="0" placeholder="Required">
+            <label>Registration Fee [1st Installment] (Tk)</label>
+            <input type="number" id="regFee" value="14467" min="0">
         </div>
         <div class="input-group">
-            <label>Pre-paid 4 Credits (B)</label>
-            <input type="number" id="paidCredits" min="0" placeholder="Required">
+            <label>4 Credits Fee [1st Installment] (Tk)</label>
+            <input type="number" id="paidCredits" value="20400" min="0">
         </div>
         <div class="input-group">
-            <label>Waiver (%)</label>
+            <label>Waiver Percentage (%)</label>
             <input type="number" id="waiver" min="0" max="100" placeholder="e.g., 20">
         </div>
     </div>
 
-    <button class="btn-calculate" onclick="calculateFees()">Calculate Semester Fee</button>
+    <button class="btn-calculate" onclick="calculateFees()"><i class="fas fa-magic"></i> Calculate My Final Payment</button>
 
     <div id="result-section">
-        <h2 style="margin-top: 0; color: var(--primary-color);">Calculation Breakdown</h2>
+        <h2 style="color: var(--text-dark); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Calculation Breakdown</h2>
         <div id="result-content"></div>
     </div>
+</div>
 
-    <footer>
-        <p>Original C Code by Fahim Faysal Khan | Web Version created for DIU CSE</p>
-    </footer>
+<div class="modal-overlay" id="courseModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>B.Sc. in CSE Course Reference</h2>
+            <button class="close-btn" onclick="toggleModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="course-list">
+            <h3><i class="fas fa-globe"></i> General Education (GED) Courses [37.5 Credits]</h3>
+            <p style="font-size: 0.85em; color: #666; margin-bottom: 10px;">Fee: 3,500 Tk / Credit</p>
+            <ul>
+                <li><span>ENG-101:</span> Basic Functional English & English Spoken</li>
+                <li><span>ENG-102:</span> Writing and Comprehension</li>
+                <li><span>MAT-101:</span> Mathematics - I</li>
+                <li><span>MAT-102:</span> Mathematics - II</li>
+                <li><span>MAT-211:</span> Engineering Mathematics</li>
+                <li><span>PHY-101:</span> Physics - I</li>
+                <li><span>PHY-102:</span> Physics - II</li>
+                <li><span>BND-101:</span> Bangladesh Studies</li>
+                <li><span>AOL-101:</span> Art of Living</li>
+                <li><span>STA-101:</span> Statistics and Probability</li>
+                <li><span>ACT-327:</span> Financial and Managerial Accounting</li>
+                <li><span>ECO-426:</span> Engineering Economics</li>
+            </ul>
+
+            <h3><i class="fas fa-laptop-code"></i> Core Courses [93 Credits]</h3>
+            <p style="font-size: 0.85em; color: #666; margin-bottom: 10px;">Fee: 5,100 Tk / Credit (Labs are 5,800 Tk)</p>
+            <ul>
+                <li><span>CSE-112:</span> Computer Fundamentals</li>
+                <li><span>CSE-113:</span> Programming and Problem Solving</li>
+                <li><span>CSE-123:</span> Data Structure</li>
+                <li><span>CSE-213:</span> Algorithms</li>
+                <li><span>CSE-221:</span> Object Oriented Programming</li>
+                <li><span>CSE-224:</span> Data Communication</li>
+                <li><span>CSE-311:</span> Database Management System</li>
+                <li><span>CSE-323:</span> Operating Systems</li>
+                <li><span>CSE-413:</span> Computer Architecture and Organization</li>
+                <li><em>... and other standard departmental core subjects.</em></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <script>
+    // Modal Toggle Logic
+    function toggleModal() {
+        const modal = document.getElementById('courseModal');
+        if (modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        } else {
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.add('active'); }, 10);
+        }
+    }
+
+    // Close modal if clicked outside the box
+    document.getElementById('courseModal').addEventListener('click', function(e) {
+        if(e.target === this) toggleModal();
+    });
+
+    // Helper to get safe number values
     function getValue(id) {
         const val = parseFloat(document.getElementById(id).value);
         return isNaN(val) ? 0 : val;
     }
 
+    // Main Calculation Logic
     function calculateFees() {
-        // 1. Get Inputs
+        // Credits
         const coreCred = getValue('coreCred');
         const gedCred = getValue('gedCred');
         const labCred = getValue('labCred');
-
         const reCoreCred = getValue('reCoreCred');
         const reGedCred = getValue('reGedCred');
         const reLabCred = getValue('reLabCred');
 
+        // Rates
         const coreFee = getValue('coreFee');
         const gedFee = getValue('gedFee');
         const labFee = getValue('labFee');
-
         const regFee = getValue('regFee');
         const paidCredits = getValue('paidCredits');
         let waiver = getValue('waiver') / 100;
 
-        // 2. Perform Calculations (Mirroring the C logic)
+        // Total Credits
         const totalCoreCred = coreCred + reCoreCred;
         const totalGedCred = gedCred + reGedCred;
         const totalLabCred = labCred + reLabCred;
 
+        // Total Gross Fees
         const coreTotalFee = coreFee * totalCoreCred;
         const gedTotalFee = gedFee * totalGedCred;
         const labTotalFee = Math.floor(labFee * totalLabCred);
-
         const totalCourseFee = coreTotalFee + gedTotalFee + labTotalFee;
         const totalWithReg = totalCourseFee + regFee;
         const totalPaid = regFee + paidCredits;
 
-        // Regular Fees (Waiver applies only to regular courses)
-        const regularCore = coreFee * coreCred;
-        const regularGed = gedFee * gedCred;
-        const regularLab = Math.floor(labFee * labCred);
-        const regularTotal = regularCore + regularGed + regularLab;
-        
+        // Regular calculation for Waiver (Waiver does NOT apply to Retakes)
+        const regularTotal = (coreFee * coreCred) + (gedFee * gedCred) + Math.floor(labFee * labCred);
         const waiverTotal = Math.floor(regularTotal - (regularTotal * waiver));
 
-        // Retake Fees (No waiver)
-        const retakeCore = coreFee * reCoreCred;
-        const retakeGed = gedFee * reGedCred;
-        const retakeLab = Math.floor(labFee * reLabCred);
-        const retakeTotal = retakeCore + retakeGed + retakeLab;
+        // Retake calculation
+        const retakeTotal = (coreFee * reCoreCred) + (gedFee * reGedCred) + Math.floor(labFee * reLabCred);
 
+        // Final Math
         const totalPaymentWithWaiver = waiverTotal + retakeTotal;
         const finalPaymentBeforeExam = totalPaymentWithWaiver - paidCredits;
 
-        // 3. Generate Output HTML
+        // Build UI Results
         let html = `
-            <div class="result-item"><span>Registration Fee:</span> <span>${regFee} Taka</span></div>
-            <div class="result-item"><span>Core Course Fee (${totalCoreCred} credits):</span> <span>${coreTotalFee} Taka</span></div>
-            <div class="result-item"><span>GED Course Fee (${totalGedCred} credits):</span> <span>${gedTotalFee} Taka</span></div>
-            <div class="result-item"><span>Lab Course Fee (${totalLabCred} credits):</span> <span>${labTotalFee} Taka</span></div>
-            <div class="result-item"><span>Total Course Fee (Without Waiver):</span> <span>${totalCourseFee} Taka</span></div>
-            <div class="result-item"><span>With Registration Fee:</span> <span>${totalWithReg} Taka</span></div>
+            <div class="result-item"><span>Total Core Fee (${totalCoreCred} cr):</span> <strong>${coreTotalFee.toLocaleString()} Tk</strong></div>
+            <div class="result-item"><span>Total GED Fee (${totalGedCred} cr):</span> <strong>${gedTotalFee.toLocaleString()} Tk</strong></div>
+            <div class="result-item"><span>Total Lab Fee (${totalLabCred} cr):</span> <strong>${labTotalFee.toLocaleString()} Tk</strong></div>
+            <div class="result-item" style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 10px;">
+                <span>Total Course Fee (Gross):</span> <strong>${totalCourseFee.toLocaleString()} Tk</strong>
+            </div>
         `;
 
         if (waiver > 0) {
-            html += `<div class="result-item" style="color: #28a745;"><span>Total Tuition After ${getValue('waiver')}% Waiver:</span> <span>${totalPaymentWithWaiver} Taka</span></div>`;
+            html += `
+            <div class="result-item" style="color: var(--primary);">
+                <span>Course Fee after ${getValue('waiver')}% Waiver:</span> <strong>${totalPaymentWithWaiver.toLocaleString()} Tk</strong>
+                <br><small style="color:#888;">*(Note: Waiver does not apply to retake credits)*</small>
+            </div>`;
         }
 
         html += `
-            <div class="result-item"><span>Already Paid:</span> <span>${totalPaid} Taka (Reg: ${regFee} + Sem: ${paidCredits})</span></div>
-            <div class="result-item highlight"><span>Payment Before Final Exam:</span> <span>${finalPaymentBeforeExam} Taka</span></div>
+            <div class="result-item" style="color: #e17055; margin-top: 10px;">
+                <span>Amount Already Paid (Reg + 4 Cr):</span> <strong>- ${totalPaid.toLocaleString()} Tk</strong>
+            </div>
+            <div class="result-item highlight">
+                <span>Payment Before Final Exam:</span> 
+                <span>${finalPaymentBeforeExam.toLocaleString()} Tk</span>
+            </div>
         `;
 
-        // 4. Update DOM and show section
+        // Render and Scroll
+        const resultDiv = document.getElementById('result-section');
         document.getElementById('result-content').innerHTML = html;
-        document.getElementById('result-section').style.display = 'block';
+        resultDiv.style.display = 'block';
         
-        // Scroll to results smoothly
-        document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+        // Small delay to allow CSS animation to trigger smoothly
+        setTimeout(() => {
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
     }
 </script>
 
