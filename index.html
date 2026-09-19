@@ -25,7 +25,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Animated Gradient Background */
+        /* Animated Gradient Background with VFX Particles */
         body {
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
@@ -36,6 +36,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            position: relative;
+            overflow-x: hidden;
         }
 
         @keyframes gradientBG {
@@ -44,8 +46,45 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Floating Background Particles */
+        .bg-bubbles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-bubbles li {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 40px; height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            bottom: -160px;
+            animation: square 25s infinite;
+            transition-timing-function: linear;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 80px; height: 80px; animation-delay: 2s; animation-duration: 17s; }
+        .bg-bubbles li:nth-child(3) { left: 25%; animation-delay: 4s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 22s; background-color: rgba(255, 255, 255, 0.25); }
+        .bg-bubbles li:nth-child(5) { left: 70%; }
+        .bg-bubbles li:nth-child(6) { left: 80%; width: 120px; height: 120px; animation-delay: 3s; background-color: rgba(255, 255, 255, 0.2); }
+        .bg-bubbles li:nth-child(7) { left: 32%; width: 160px; height: 160px; animation-delay: 7s; }
+        .bg-bubbles li:nth-child(8) { left: 55%; width: 20px; height: 20px; animation-delay: 15s; animation-duration: 40s; }
+        .bg-bubbles li:nth-child(9) { left: 25%; width: 10px; height: 10px; animation-delay: 2s; animation-duration: 40s; background-color: rgba(255, 255, 255, 0.3); }
+        .bg-bubbles li:nth-child(10) { left: 90%; width: 160px; height: 160px; animation-delay: 11s; }
+
+        @keyframes square {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(600deg); opacity: 0; }
+        }
+
         /* Glassmorphism Container */
         .container {
+            position: relative;
+            z-index: 1;
             width: 100%;
             max-width: 900px;
             background: var(--glass-bg);
@@ -55,18 +94,15 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            animation: slideUp 0.8s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(60px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        header { text-align: center; margin-bottom: 30px; }
 
         h1 {
             background: linear-gradient(to right, var(--secondary), var(--primary));
@@ -95,7 +131,7 @@
             background: var(--primary);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
         }
 
         .section-title {
@@ -140,35 +176,39 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        /* Improved VFX on Focus */
         input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.1);
+            box-shadow: 0 0 15px rgba(37, 117, 252, 0.3), inset 0 0 5px rgba(37, 117, 252, 0.1);
             transform: translateY(-2px);
         }
 
-        input:focus + label {
-            color: var(--primary);
-        }
+        input:focus + label { color: var(--primary); }
 
+        /* Enhanced Calculate Button */
         .btn-calculate {
             width: 100%;
             padding: 16px;
             margin-top: 35px;
             background: linear-gradient(135deg, var(--secondary), var(--primary));
+            background-size: 200% auto;
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 1.2em;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-calculate:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px rgba(106, 17, 203, 0.4);
+            background-position: right center; /* Gradient animation on hover */
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 15px 30px rgba(37, 117, 252, 0.5);
         }
 
         .btn-calculate:active {
@@ -180,15 +220,16 @@
             display: none;
             margin-top: 35px;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             border-left: 6px solid var(--success);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -200,9 +241,7 @@
             font-size: 0.95em;
         }
 
-        .result-item:last-child {
-            border-bottom: none;
-        }
+        .result-item:last-child { border-bottom: none; }
 
         .result-item.highlight {
             font-size: 1.3em;
@@ -214,6 +253,7 @@
             background: rgba(0, 184, 148, 0.1);
             border-radius: 8px;
             padding: 15px;
+            align-items: center;
         }
 
         /* Modal Styles */
@@ -230,10 +270,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-overlay.active { display: flex; opacity: 1; }
 
         .modal-content {
             background: white;
@@ -242,14 +279,14 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.8) translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             max-height: 85vh;
             overflow-y: auto;
         }
 
         .modal-overlay.active .modal-content {
-            transform: scale(1);
+            transform: scale(1) translateY(0);
         }
 
         .modal-header {
@@ -267,20 +304,13 @@
             font-size: 1.5em;
             cursor: pointer;
             color: var(--text-light);
-            transition: color 0.3s;
+            transition: all 0.3s;
         }
 
-        .close-btn:hover { color: #d63031; }
+        .close-btn:hover { color: #d63031; transform: rotate(90deg); }
 
-        .course-list h3 {
-            color: var(--primary);
-            margin: 15px 0 10px 0;
-        }
-
-        .course-list ul {
-            list-style: none;
-        }
-
+        .course-list h3 { color: var(--primary); margin: 15px 0 10px 0; }
+        .course-list ul { list-style: none; }
         .course-list li {
             padding: 8px 12px;
             background: #f8f9fa;
@@ -288,18 +318,25 @@
             border-radius: 6px;
             border-left: 3px solid var(--secondary);
             font-size: 0.9em;
+            transition: transform 0.2s;
         }
+        .course-list li:hover { transform: translateX(5px); background: #f1f3f5; }
         .course-list li span { font-weight: 600; color: #333; }
-
     </style>
 </head>
 <body>
+
+<!-- VFX Background Particles -->
+<ul class="bg-bubbles">
+    <li></li><li></li><li></li><li></li><li></li>
+    <li></li><li></li><li></li><li></li><li></li>
+</ul>
 
 <div class="container">
     <header>
         <h1><i class="fas fa-calculator"></i> DIU Fee Calculator</h1>
         <p>Smart Payment Before Final Exam Calculator for CSE Dept.</p>
-        <button class="btn-reference" onclick="toggleModal()"><i class="fas fa-book-open"></i> What's GED and Core credit (View Course Reference)</button>
+        <button class="btn-reference" onclick="toggleModal()"><i class="fas fa-book-open"></i> View Course Reference</button>
     </header>
 
     <div class="section-title"><i class="fas fa-graduation-cap"></i> 1. Enter Your Credits</div>
@@ -353,11 +390,11 @@
     <div class="section-title"><i class="fas fa-file-invoice-dollar"></i> 4. Payments & Waiver</div>
     <div class="grid">
         <div class="input-group">
-            <label>Registration Fee [1st Installment] (Tk)</label>
+            <label>Reg Fee [1st Installment] (Tk)</label>
             <input type="number" id="regFee" value="14467" min="0">
         </div>
         <div class="input-group">
-            <label>4 Credits Fee [1st Installment] (Tk)</label>
+            <label>4 Credits [1st Installment] (Tk)</label>
             <input type="number" id="paidCredits" value="20400" min="0">
         </div>
         <div class="input-group">
@@ -417,7 +454,6 @@
 </div>
 
 <script>
-    // Modal Toggle Logic
     function toggleModal() {
         const modal = document.getElementById('courseModal');
         if (modal.classList.contains('active')) {
@@ -429,20 +465,32 @@
         }
     }
 
-    // Close modal if clicked outside the box
     document.getElementById('courseModal').addEventListener('click', function(e) {
         if(e.target === this) toggleModal();
     });
 
-    // Helper to get safe number values
     function getValue(id) {
         const val = parseFloat(document.getElementById(id).value);
         return isNaN(val) ? 0 : val;
     }
 
-    // Main Calculation Logic
+    // Number Counter Animation VFX
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            // Easing function for smoother finish
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            obj.innerHTML = Math.floor(easeOutQuart * (end - start) + start).toLocaleString() + " Tk";
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
     function calculateFees() {
-        // Credits
         const coreCred = getValue('coreCred');
         const gedCred = getValue('gedCred');
         const labCred = getValue('labCred');
@@ -450,7 +498,6 @@
         const reGedCred = getValue('reGedCred');
         const reLabCred = getValue('reLabCred');
 
-        // Rates
         const coreFee = getValue('coreFee');
         const gedFee = getValue('gedFee');
         const labFee = getValue('labFee');
@@ -458,31 +505,23 @@
         const paidCredits = getValue('paidCredits');
         let waiver = getValue('waiver') / 100;
 
-        // Total Credits
         const totalCoreCred = coreCred + reCoreCred;
         const totalGedCred = gedCred + reGedCred;
         const totalLabCred = labCred + reLabCred;
 
-        // Total Gross Fees
         const coreTotalFee = coreFee * totalCoreCred;
         const gedTotalFee = gedFee * totalGedCred;
         const labTotalFee = Math.floor(labFee * totalLabCred);
         const totalCourseFee = coreTotalFee + gedTotalFee + labTotalFee;
-        const totalWithReg = totalCourseFee + regFee;
         const totalPaid = regFee + paidCredits;
 
-        // Regular calculation for Waiver (Waiver does NOT apply to Retakes)
         const regularTotal = (coreFee * coreCred) + (gedFee * gedCred) + Math.floor(labFee * labCred);
         const waiverTotal = Math.floor(regularTotal - (regularTotal * waiver));
-
-        // Retake calculation
         const retakeTotal = (coreFee * reCoreCred) + (gedFee * reGedCred) + Math.floor(labFee * reLabCred);
 
-        // Final Math
         const totalPaymentWithWaiver = waiverTotal + retakeTotal;
         const finalPaymentBeforeExam = totalPaymentWithWaiver - paidCredits;
 
-        // Build UI Results
         let html = `
             <div class="result-item"><span>Total Core Fee (${totalCoreCred} cr):</span> <strong>${coreTotalFee.toLocaleString()} Tk</strong></div>
             <div class="result-item"><span>Total GED Fee (${totalGedCred} cr):</span> <strong>${gedTotalFee.toLocaleString()} Tk</strong></div>
@@ -506,18 +545,25 @@
             </div>
             <div class="result-item highlight">
                 <span>Payment Before Final Exam:</span> 
-                <span>${finalPaymentBeforeExam.toLocaleString()} Tk</span>
+                <span id="final-amount">0 Tk</span>
             </div>
         `;
 
-        // Render and Scroll
         const resultDiv = document.getElementById('result-section');
+        
+        // Reset animation state
+        resultDiv.style.animation = 'none';
+        resultDiv.offsetHeight; /* trigger reflow */
+        resultDiv.style.animation = null; 
+
         document.getElementById('result-content').innerHTML = html;
         resultDiv.style.display = 'block';
         
-        // Small delay to allow CSS animation to trigger smoothly
         setTimeout(() => {
             resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Trigger the number counting VFX
+            const amountDisplay = document.getElementById('final-amount');
+            animateValue(amountDisplay, 0, finalPaymentBeforeExam, 1500);
         }, 50);
     }
 </script>
